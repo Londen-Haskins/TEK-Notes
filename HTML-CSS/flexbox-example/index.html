@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="description" content="A page for exploring basic HTML documents">
+    <title>Flexbox</title>
+	
+	<style>
+	
+		html, body{
+			margin: 0;
+			padding: 0;
+		}
+		
+		a{
+			text-decoration: none;
+		}
+		
+		li{
+			list-style-type: none;
+		}
+	
+		.menu_container{
+			display: flex;
+			padding: 20px;
+			background-color: #1c1808;
+			font-family: cursive;
+			font-weight: 300;
+			color: white;
+		}
+		
+		.menu_item{
+			flex: 1;
+		}
+		
+		.more{
+			flex: 2;
+		}
+		
+		.menu_container
+		.menu_item nav ul{
+			color: white;
+			padding: 21px 37px;
+			border-radius: 3px;
+		}
+		
+		.menu_container
+		.menu_item nav ul li a:hover{
+			background-color: #becccf;
+			color: #1c1808;
+		}
+	
+	</style>
+	
+    </head>
+	
+    <body>
+	
+		<div class="menu_container">
+			<div class="menu_item">
+				<p>Logo</p>
+			</div>
+			<div class="menu_item">
+				<nav>
+					<ul>
+						<li>
+							<a href="#">Home</a>
+						</li>
+						<li>
+							<a href="#">About</a>
+						</li>
+						<li>
+							<a href="#">Services</a>
+						</li>
+						<li>
+							<a href="#">Contact</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		
+		<div class="title_container">
+			<h1>Page Heading</h1>
+			<h3>Secondary Text</h3>
+		</div>
+		<div class="main_content">
+			<div class="sub_main">
+				<div class="main_items">
+					<div class="img">
+						<img src="" />
+					</div>
+					<div class="img_content">
+						<h4>Project One</h4>
+						<p>
+							Lorem is simply dummy text of the printing and typesetting industry
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	
+</html>
