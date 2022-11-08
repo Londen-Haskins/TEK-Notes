@@ -1,13 +1,22 @@
 package jpa.entitymodels;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,8 +42,12 @@ public class Student {
 	@Column(name="password")
 	private String sPass;
 	
-	//@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	//private List<Course> sCourses;
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinTable(name="student_course",
+			joinColumns = {@JoinColumn(name = "student_email", referencedColumnName = "email",nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id",nullable = false, updatable = false)}
+			)
+	private List<Course> sCourses = new ArrayList<Course>();
 	
 	public Student(String newEmail,String newName,String newPass) {
 		this.sEmail = newEmail;

@@ -1,11 +1,14 @@
 package jpa.entitymodels;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -33,6 +36,9 @@ public class Course {
 	
 	@Column(name="instructor")
 	private String cInstructorName;
+	
+	@ManyToMany(mappedBy = "sCourses", fetch = FetchType.LAZY)
+	private Set<Student> students = new HashSet<Student>();
 	
 	public Course(int newId,String newName,String newInstructName) {
 		this.cId = newId;
