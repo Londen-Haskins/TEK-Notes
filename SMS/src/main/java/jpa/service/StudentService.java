@@ -1,6 +1,8 @@
 package jpa.service;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
@@ -18,9 +20,7 @@ public class StudentService implements StudentDAO{
 
 	// This method reads the student table in your database and returns the data as a List<Student>
 	public List<Student> getAllStudents() {
-		
-		//EntityManagerFactory em = new Configuration().configure().buildSessionFactory();
-		
+				
 		SessionFactory factory = new Configuration().configure().buildSessionFactory();
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
@@ -107,10 +107,10 @@ public class StudentService implements StudentDAO{
 		//Query to get the Student as an object
 		try {
 			Student tempS = scQuery.getSingleResult();
-			//System.out.println(tempS.getSEmail() + tempS.getSName());
 			//Try to query for that student's courses
 			try {
-				List<Course>tempCourses = tempS.getSCourses();
+				List<Course> tempCourses = new ArrayList<Course>();
+				tempCourses.addAll(tempS.getSCourses());
 				//Look through courses for specific class
 				for(Course temp: tempCourses) {
 					//If a match is found
@@ -127,8 +127,8 @@ public class StudentService implements StudentDAO{
 					Course newCourse = csQuery.getSingleResult();
 					tempS.getSCourses().add(newCourse);
 					newCourse.getStudents().add(tempS);
-					session.save(tempS); //Save student to database
-					session.save(newCourse);
+					session.persist(tempS); //Save student to database
+					session.persist(newCourse);
 				}
 			}catch(Exception e) {
 				System.out.println("User courses not found");
@@ -151,16 +151,15 @@ public class StudentService implements StudentDAO{
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 		
-		
 		String studentHql = "SELECT s FROM Student s WHERE s.sEmail=:email";
 		TypedQuery<Student> scQuery = session.createQuery(studentHql, Student.class);
 		scQuery.setParameter("email",inputEmail);
 		try {
 			Student tempS = scQuery.getSingleResult();
-			//System.out.println(tempS.getSEmail() + tempS.getSName());
-			try {
-				courseSet = tempS.getSCourses();
+			try {				
+				courseSet.addAll(tempS.getSCourses());
 				System.out.println("User courses: "+courseSet.toString());
+				
 			}catch(Exception e) {
 				System.out.println("User courses not found");
 			}

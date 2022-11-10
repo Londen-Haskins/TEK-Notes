@@ -1,8 +1,10 @@
 package jpa.entitymodels;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,6 +46,13 @@ public class Course {
 		this.cId = newId;
 		this.cName = newName;
 		this.cInstructorName = newInstructName;
+	}
+	
+	@Override
+	public String toString() {
+		
+		String cList = "Course Id: "+this.cId+"  Course Name: "+this.cName+"  Instructor: "+this.cInstructorName+"\n";
+		return cList.replace("[","").replace("]","");
 	}
 	
 	@Override

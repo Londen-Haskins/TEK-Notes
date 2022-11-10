@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -42,17 +44,24 @@ public class Student {
 	@Column(name="password")
 	private String sPass;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinTable(name="student_course",
-			joinColumns = {@JoinColumn(name = "student_email", referencedColumnName = "email",nullable = false, updatable = false)},
+			joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "email",nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id",nullable = false, updatable = false)}
 			)
-	private List<Course> sCourses = new ArrayList<Course>();
+	private Set<Course> sCourses = new HashSet<Course>();
 	
 	public Student(String newEmail,String newName,String newPass) {
 		this.sEmail = newEmail;
 		this.sName = newName;
 		this.sPass = newPass;
+	}
+	
+	@Override
+	public String toString() {
+		
+		String cList = "Student Email: "+this.sEmail+"  Student Name: "+this.sName+"\n";
+		return cList.replace("[","").replace("]","");
 	}
 	
 	@Override
