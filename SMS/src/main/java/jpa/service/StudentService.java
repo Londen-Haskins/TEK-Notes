@@ -158,8 +158,7 @@ public class StudentService implements StudentDAO{
 			Student tempS = scQuery.getSingleResult();
 			try {				
 				courseSet.addAll(tempS.getSCourses());
-				System.out.println("User courses: "+courseSet.toString());
-				
+								
 			}catch(Exception e) {
 				System.out.println("User courses not found");
 			}

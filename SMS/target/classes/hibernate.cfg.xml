@@ -12,7 +12,7 @@
 	
 	    <property name="dialect">org.hibernate.dialect.MariaDB53Dialect</property>  
 	   
-	   <property name="hibernate.show_sql" >true </property>
+	   <property name="hibernate.show_sql" >false </property>
 	   <property name="hibernate.format_sql" >true </property>
 	
 	      <mapping class="jpa.entitymodels.Student"/> 

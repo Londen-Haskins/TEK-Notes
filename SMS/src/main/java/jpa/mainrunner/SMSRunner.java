@@ -42,6 +42,8 @@ public class SMSRunner {
 					if(validStudent) {
 						// Get all courses assigned to student
 						List<Course> studentCourses = stu.getStudentCourses(inputEmail);
+						System.out.println("USER COURSES:\n");
+						System.out.println(studentCourses.toString());
 						// Give 'Register to Class' and 'Quit' option select
 						System.out.println(" 1. Register to Class\n 2.Quit");
 						char register = sc.next().charAt(0);
@@ -50,6 +52,7 @@ public class SMSRunner {
 						if(register == '1') {
 							// List all courses and ask for course selection
 							List<Course> listCourse = cou.getAllCourses();
+							System.out.println("COURSE LIST\n");
 							System.out.println(listCourse.toString());
 							System.out.println("Enter the class ID you would like to register for.");
 							String courseChoice = sc.nextLine();
@@ -99,10 +102,7 @@ public class SMSRunner {
 		System.out.println("Closing program");
 		
 		
-		//List<Course> list = stu.getStudentCourses("htaffley6@columbia.edu");
-
-		//List<Course> list = stu.getStudentCourses("htaffley6@columbia.edu");
-		//boolean judge = stu.validateStudent("htaffley6@columbia.edu","xowtOQ");
+		//TEST ACCOUNT("htaffley6@columbia.edu","xowtOQ");
 	}
 
 }
