@@ -29,8 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-public class IndexController {
-
+public class ProfileController {
+	
 	private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
 	@Autowired
@@ -39,20 +39,20 @@ public class IndexController {
 	@Value("${spring.datasource.url}")
 	private String variable;
 
-	@RequestMapping(value = { "/"}, method = RequestMethod.GET)
-	public ModelAndView slash() {
+	@RequestMapping(value = { "/user/profile"}, method = RequestMethod.GET)
+	public ModelAndView userProfile(@RequestParam(required = true) Integer id) {
 
 		ModelAndView response = new ModelAndView();
-		response.setViewName("index");
+		response.setViewName("profile");
 
-		List<User> users = userDao.getAllUsers();
-		for (User u : users) {
-			logger.info(u.getFirstName());
-			logger.info(u.getEmail());
-		}
-		response.addObject("users", users);
+		User u = userDao.findById(id);
+		
+		logger.info(u.getFirstName());
+		logger.info(u.getEmail());
+		
+		response.addObject("user", u);
 
 		return response;
 	}
-	
+
 }

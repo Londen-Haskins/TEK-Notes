@@ -31,5 +31,8 @@ public interface UserDAO extends JpaRepository<User,Long> {
 	
 	@Query("SELECT u FROM User u")
 	public List<User> getAllUsers();
+	
+	public User findByEmail(String email);
+	
 		
 }
