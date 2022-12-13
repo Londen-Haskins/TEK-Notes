@@ -37,6 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	            // if they have requested a secure URL spring security will ignore this and send them to the 
 	            // secured url they requested
 	            .defaultSuccessUrl("/")
+	            //Default login failure url
+	            .failureUrl("/")
 	            .and()
 	        .logout()
 	            .invalidateHttpSession(true)

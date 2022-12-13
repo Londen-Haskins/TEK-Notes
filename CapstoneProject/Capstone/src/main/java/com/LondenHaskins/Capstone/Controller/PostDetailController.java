@@ -1,6 +1,8 @@
 package com.LondenHaskins.Capstone.Controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -26,15 +28,17 @@ import com.LondenHaskins.Capstone.DAO.PostDAO;
 import com.LondenHaskins.Capstone.DAO.UserDAO;
 import com.LondenHaskins.Capstone.Entity.Post;
 import com.LondenHaskins.Capstone.Entity.User;
+import com.LondenHaskins.Capstone.Entity.UserRole;
 import com.LondenHaskins.Capstone.Security.AuthenticatedUserService;
+import com.LondenHaskins.Capstone.form.PostCreate;
 import com.LondenHaskins.Capstone.form.UserAcctCreate;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-public class IndexController {
-
+public class PostDetailController {
+	
 	private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
 	@Autowired
@@ -49,31 +53,42 @@ public class IndexController {
 	@Value("${spring.datasource.url}")
 	private String variable;
 
-	@RequestMapping(value = { "/"}, method = RequestMethod.GET)
-	public ModelAndView slash() {
+	@RequestMapping(value = { "/user/profile/makePost"}, method = RequestMethod.POST)
+	public ModelAndView createPost(@Valid PostCreate form, BindingResult bindingResult) {
 
 		ModelAndView response = new ModelAndView();
-		response.setViewName("index");
-		User curUser = new User();
+		response.setViewName("post");
 		
-		if(authentication.isAuthenticated()) {
-			curUser = authentication.getCurrentUser();
+		log.debug(form.toString());
+		
+		for (ObjectError e : bindingResult.getAllErrors()) {
+			log.debug(e.getObjectName() + " : " + e.getDefaultMessage());
 		}
 
-		List<Post> posts = postDao.getAllPosts();
-		List<User> users = userDao.getAllUsers();
-		for (User u : users) {
-			logger.info(u.getFirstName());
-			logger.info(u.getEmail());
+		if ( ! bindingResult.hasErrors()) {
+			Post newPost = new Post();
+
+			newPost.setContentText(form.getContentText());
+			newPost.setAuthor(authentication.getCurrentUser());
+			
+			Date date = new Date();
+			Timestamp curTime = new Timestamp(date.getTime());
+			newPost.setTimePosted(curTime);
+			
+			try {
+				postDao.save(newPost);
+				response.addObject("post", newPost);
+			}
+			catch(Exception e){
+				log.debug("Error saving new post to DAO");
+			}
+						
+		} else {
+			response.addObject("bindingResult", bindingResult);
+			response.addObject("form", form);
 		}
-		for (Post p : posts) {
-			logger.info(p.getAuthor().getFirstName() + "Post displayed");
-		}
-		response.addObject("curUser", curUser);
-		response.addObject("users", users);
-		response.addObject("posts", posts);
 
 		return response;
 	}
-	
+
 }

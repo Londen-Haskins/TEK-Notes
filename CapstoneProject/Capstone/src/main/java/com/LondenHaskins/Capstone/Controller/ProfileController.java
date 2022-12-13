@@ -21,8 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.LondenHaskins.Capstone.DAO.FriendListDAO;
+import com.LondenHaskins.Capstone.DAO.PostDAO;
 import com.LondenHaskins.Capstone.DAO.UserDAO;
+import com.LondenHaskins.Capstone.Entity.FriendList;
+import com.LondenHaskins.Capstone.Entity.Post;
 import com.LondenHaskins.Capstone.Entity.User;
+import com.LondenHaskins.Capstone.form.FriendshipCreate;
 import com.LondenHaskins.Capstone.form.UserAcctCreate;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +40,12 @@ public class ProfileController {
 
 	@Autowired
 	private UserDAO userDao;
+	
+	@Autowired
+	private PostDAO postDao;
+	
+	@Autowired
+	private FriendListDAO friendListDao;
 
 	@Value("${spring.datasource.url}")
 	private String variable;
@@ -51,6 +62,74 @@ public class ProfileController {
 		logger.info(u.getEmail());
 		
 		response.addObject("user", u);
+		
+		List<Post> posts = postDao.getAllPostsFrom(u);
+		for (Post p : posts) {
+			logger.info(p.getAuthor().getFirstName() + "Post displayed");
+		}
+		
+		List<User> friendSet = new ArrayList<User>();
+		List<FriendList> friends = new ArrayList<FriendList>(u.getFriends());
+		for (FriendList friend : friends) {
+			friendSet.add(userDao.findById(friend.getFriendId()));
+		}
+		response.addObject("friends", friendSet);
+		response.addObject("posts", posts);
+
+		return response;
+	}
+	
+	@RequestMapping(value = { "/user/profile/add"}, method = RequestMethod.POST)
+	public ModelAndView userProfile(@Valid FriendshipCreate form, BindingResult bindingResult) {
+
+		ModelAndView response = new ModelAndView();
+		response.setViewName("profile");
+
+		Boolean alreadyFriend = false;
+		User fri1 = userDao.findById(form.getUserId());
+		User fri2 = userDao.findById(form.getFriendId());
+		
+		//Test if the user tried to add themselves
+		if(fri1.getId() == fri2.getId()) {
+			logger.info("Cannot add yourself as a friend");
+			return response;
+		}
+		
+		//Test if the user and possible friend are already friends
+		List<FriendList>currentList = new ArrayList<FriendList>(fri1.getFriends());
+		for (FriendList fl : currentList) {
+			logger.info("Friend of user "+fl.getUserId()+" is user "+fl.getFriendId());
+			if(fl.getFriendId() == fri2.getId()) {
+				alreadyFriend = true;
+				logger.info("These users are already friends");
+			}
+		}
+				
+		//If the users are not already friends
+		if(!alreadyFriend) {
+			
+			FriendList friendship = new FriendList();
+			FriendList friendship2 = new FriendList();
+			
+			friendship.setUserId(fri1.getId());
+			friendship.setUser(fri1);
+			friendship.setFriendId(fri2.getId());
+			friendship2.setUserId(fri2.getId());
+			friendship2.setUser(fri2);
+			friendship2.setFriendId(fri1.getId());
+
+			fri2.getFriends().add(friendship);
+			fri2.getFriends().add(friendship2);
+			
+			friendListDao.save(friendship);
+			friendListDao.save(friendship2);
+			userDao.save(fri1);
+			userDao.save(fri2);
+			
+			logger.info("Friendship between "+fri1.getFirstName()+" and "+fri2.getFirstName()+" is submitted");
+			
+		}
+		
 
 		return response;
 	}

@@ -32,7 +32,12 @@ public interface UserDAO extends JpaRepository<User,Long> {
 	@Query("SELECT u FROM User u")
 	public List<User> getAllUsers();
 	
+	@Query("SELECT u FROM User u WHERE id != :id")
+	public List<User> getOtherUsers(Integer id);
+	
 	public User findByEmail(String email);
+	
+	
 	
 		
 }
