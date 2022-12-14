@@ -33,4 +33,7 @@ public interface PostDAO extends JpaRepository<Post,Long> {
 	@Query("SELECT p FROM Post p WHERE author =:user ")
 	public List<Post> getAllPostsFrom(User user);
 	
+	@Query("SELECT COUNT(p) FROM PostComment p WHERE refPost = :post")
+	public Integer getNumComments(Post post);
+	
 }

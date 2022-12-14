@@ -13,9 +13,39 @@
 						<a class="text-dark">${post.getAuthor().getFirstName()} ${post.getAuthor().getLastName()}</a>
 					</h3>
 					<div class="mb-1 text-muted">${post.timePosted}</div>
-					  <p class="card-text mb-auto" style="color: white; text-shadow: 2px 2px #000000;">
-						${post.contentText}
-					  </p>
+						<span class="border">
+							<p class="card-text mb-auto" style="color: white; text-shadow: 2px 2px #000000;">
+								${post.contentText}
+						  	</p>
+						</span>
+						<sec:authorize access="isAuthenticated()">
+							<form action="/user/profile/makeComment" method="POST">
+								<input type="hidden" name="userId" value="${curUser.getId()}"/>
+								<input type="hidden" name="postId" value="${post.getId()}"/>
+				            	<textarea id="formContent" name="message" rows="2" cols="50" placeholder="What's on your mind?"></textarea>
+				                <div class="d-flex justify-content-between align-items-center">
+				                    <div class="btn-group">
+				                    	<button type="submit" class="btn btn-sm btn-secondary">COMMENT</button>
+				                    	<small class="text-muted">200 character limit</small>
+				                    </div>
+				            	</div>
+				            </form>
+				        </sec:authorize>
+						<!-- Post Comments List -->
+						<span class="border">
+							<div class="col-6">
+								<ul class="list-group mb-3">
+									<u:if test="${commentsExist}">
+							            <u:forEach items="${comments}" var="comment" varStatus="status">
+							            	<li class="list-group-item d-flex justify-content-between lh-condensed">
+									           	<h6 class="my-0">${commentNames.get(status.count - 1)}</h6>
+									           	<p>${comment.message}</p>
+									        </li>
+									    </u:forEach>
+									</u:if>
+						        </ul>
+							</div>
+						</span>
 					</div>
 				</div>
 			</div>
