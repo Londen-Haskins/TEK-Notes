@@ -6,18 +6,16 @@
 	<div class="container">
 	
 		<!-- Post Main Card -->
-		<div class="col-md-6">
+		<div class="col-md-6 my-3">
 			<div class="card flex-md-row mb-4 box-shadow h-md-250" style="background-color: #0C690C; ">
 				<div class="card-body d-flex flex-column align-items-start">
 					<h3 class="mb-0">
 						<a class="text-dark">${post.getAuthor().getFirstName()} ${post.getAuthor().getLastName()}</a>
 					</h3>
 					<div class="mb-1 text-muted">${post.timePosted}</div>
-						<span class="border">
-							<p class="card-text mb-auto" style="color: white; text-shadow: 2px 2px #000000;">
-								${post.contentText}
-						  	</p>
-						</span>
+						<p class="card-text mb-auto" style="color: white; text-shadow: 2px 2px #000000;">
+							${post.contentText}
+						</p>
 						<sec:authorize access="isAuthenticated()">
 							<form action="/user/profile/makeComment" method="POST">
 								<input type="hidden" name="userId" value="${curUser.getId()}"/>
@@ -33,12 +31,12 @@
 				        </sec:authorize>
 						<!-- Post Comments List -->
 						<span class="border">
-							<div class="col-6">
-								<ul class="list-group mb-3">
+							<div class="col">
+								<ul class="list-group mb-3 p-2">
 									<u:if test="${commentsExist}">
 							            <u:forEach items="${comments}" var="comment" varStatus="status">
 							            	<li class="list-group-item d-flex justify-content-between lh-condensed">
-									           	<h6 class="my-0">${commentNames.get(status.count - 1)}</h6>
+									           	<h6 class="my-0 mx-1 p-2">${commentNames.get(status.count - 1)}</h6>
 									           	<p>${comment.message}</p>
 									        </li>
 									    </u:forEach>

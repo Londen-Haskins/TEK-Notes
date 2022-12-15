@@ -1,4 +1,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -8,7 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Social Network</title>
     
-    <link rel="stylesheet" href="social.css">
+    
+    <c:url value="/social.css" var="cssURL" />
+	<link rel="stylesheet" href="${cssURL}" />
 </head>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -31,6 +34,7 @@
 			<ul>	
 				<li class="navbar-block"><a href="/">Home</a></li>
 				<li class="navbar-block"><a href="/">Profile</a></li>
+				<li class="navbar-block"><a href="/listing">User Listing</a></li>
 				
 				<sec:authorize access="!isAuthenticated()">
 					<li class="navbar-block"><a href="/signup">Sign Up</a></li>
@@ -43,10 +47,10 @@
 				
 					
 			</ul>
-			<form class="form-inline">
-				User Name:
-				<input type="text" placeholder="Username" aria-label="Search">
-				<button type="submit">Log In</button>
+			<form class="form-inline" action="/search" method="GET">
+				Search for User:
+				<input type="text" placeholder="Username" aria-label="Search" name="name">
+				<button type="submit">Search</button>
 			</form>
 		</div>
 	</div>

@@ -37,7 +37,8 @@ public interface UserDAO extends JpaRepository<User,Long> {
 	
 	public User findByEmail(String email);
 	
-	
+	// select * from course where lower(name) like lower('%name%') order by name desc
+	public List<User> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrderByLastNameAsc(String name, String name2);
 	
 		
 }
