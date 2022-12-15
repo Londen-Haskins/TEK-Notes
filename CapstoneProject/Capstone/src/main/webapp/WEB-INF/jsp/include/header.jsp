@@ -33,23 +33,23 @@
 		<div class="navbar">
 			<ul>	
 				<li class="navbar-block"><a href="/">Home</a></li>
-				<li class="navbar-block"><a href="/">Profile</a></li>
-				<li class="navbar-block"><a href="/listing">User Listing</a></li>
+				<li class="navbar-block"><a href="/user/listing">User Listing</a></li>
 				
 				<sec:authorize access="!isAuthenticated()">
-					<li class="navbar-block"><a href="/signup">Sign Up</a></li>
+					<li class="navbar-block"><a href="/user/signup">Sign Up</a></li>
 					<li class="navbar-block"><a href="/user/login">Log In</a></li>
 				</sec:authorize>
 				
 				<sec:authorize access="isAuthenticated()">
+					<li class="navbar-block"><a href="/userCtrl/myProfile">Profile</a></li>
 					<li class="navbar-block"><a href="/user/logout">Logout</a></li>
 				</sec:authorize>
 				
 					
 			</ul>
-			<form class="form-inline" action="/search" method="GET">
+			<form class="form-inline" action="/user/search" method="GET">
 				Search for User:
-				<input type="text" placeholder="Username" aria-label="Search" name="name">
+				<input type="text" placeholder="First or last name" aria-label="Search" name="name">
 				<button type="submit">Search</button>
 			</form>
 		</div>

@@ -13,11 +13,13 @@
 						<a class="text-dark">${post.getAuthor().getFirstName()} ${post.getAuthor().getLastName()}</a>
 					</h3>
 					<div class="mb-1 text-muted">${post.timePosted}</div>
-						<p class="card-text mb-auto" style="color: white; text-shadow: 2px 2px #000000;">
-							${post.contentText}
-						</p>
+						<span class="border p-2 m-2">
+							<p class="card-text mb-auto px-2" style="color: white; text-shadow: 2px 2px #000000;">
+								${post.contentText}
+							</p>
+						</span>
 						<sec:authorize access="isAuthenticated()">
-							<form action="/user/profile/makeComment" method="POST">
+							<form action="/userCtrl/makeComment" method="POST">
 								<input type="hidden" name="userId" value="${curUser.getId()}"/>
 								<input type="hidden" name="postId" value="${post.getId()}"/>
 				            	<textarea id="formContent" name="message" rows="2" cols="50" placeholder="What's on your mind?"></textarea>

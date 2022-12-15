@@ -17,9 +17,11 @@
 							<a class="text-dark">${post.getAuthor().getFirstName()} ${post.getAuthor().getLastName()}</a>
 						</h3>
 						<div class="mb-1 text-muted">${post.timePosted}</div>
-								<p class="card-text mb-auto" style="color: white; text-shadow: 2px 2px #000000;">
-									${post.contentText}
-								</p>
+								<span class="border p-2 m-2">
+									<p class="card-text mb-auto px-2" style="color: white; text-shadow: 2px 2px #000000;">
+										${post.contentText}
+									</p>
+								</span>
 							
 							<!-- Post Comments Estimate -->
 							<span class="border">
@@ -44,7 +46,15 @@
             <u:forEach items="${friends}" var="friend">
             	<li class="list-group-item d-flex justify-content-between lh-condensed">
 		           	<h6 class="my-0">${friend.firstName} ${friend.lastName}</h6>
+		           	<form action="/userCtrl/add" method="POST"> 
+				        <sec:authorize access="isAuthenticated()">
+							<button type="submit" class="btn-primary btn-block">Add Friend</button>
+						</sec:authorize>
+				        <input type="hidden" name="userId" value="${curUser.id}"/>
+				        <input type="hidden" name="friendId" value="${user.id}"/>
+				    </form>
 		        </li>
+		        
 		    </u:forEach>
           </ul>
         </div>

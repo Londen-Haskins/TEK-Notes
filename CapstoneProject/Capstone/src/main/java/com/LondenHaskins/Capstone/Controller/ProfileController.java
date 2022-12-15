@@ -2,9 +2,7 @@ package com.LondenHaskins.Capstone.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -13,12 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.LondenHaskins.Capstone.DAO.FriendListDAO;
@@ -27,8 +22,8 @@ import com.LondenHaskins.Capstone.DAO.UserDAO;
 import com.LondenHaskins.Capstone.Entity.FriendList;
 import com.LondenHaskins.Capstone.Entity.Post;
 import com.LondenHaskins.Capstone.Entity.User;
+import com.LondenHaskins.Capstone.Security.AuthenticatedUserService;
 import com.LondenHaskins.Capstone.form.FriendshipCreate;
-import com.LondenHaskins.Capstone.form.UserAcctCreate;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +40,9 @@ public class ProfileController {
 	private PostDAO postDao;
 	
 	@Autowired
+	private AuthenticatedUserService authentication;
+	
+	@Autowired
 	private FriendListDAO friendListDao;
 
 	@Value("${spring.datasource.url}")
@@ -56,6 +54,13 @@ public class ProfileController {
 		ModelAndView response = new ModelAndView();
 		response.setViewName("profile");
 
+		User curUser = new User();
+		boolean commentsExist = false;
+		
+		if(authentication.isAuthenticated()) {
+			curUser = authentication.getCurrentUser();
+		}
+		
 		User u = userDao.findById(id);
 		
 		logger.info(u.getFirstName());
@@ -73,13 +78,49 @@ public class ProfileController {
 		for (FriendList friend : friends) {
 			friendSet.add(userDao.findById(friend.getFriendId()));
 		}
+		response.addObject("curUser", curUser);
 		response.addObject("friends", friendSet);
 		response.addObject("posts", posts);
 
 		return response;
 	}
 	
-	@RequestMapping(value = { "/user/profile/add"}, method = RequestMethod.POST)
+	@RequestMapping(value = { "/userCtrl/myProfile"}, method = RequestMethod.GET)
+	public ModelAndView myProfile() {
+
+		ModelAndView response = new ModelAndView();
+		response.setViewName("profile");
+
+		User curUser = new User();
+		boolean commentsExist = false;
+		
+		if(authentication.isAuthenticated()) {
+			curUser = authentication.getCurrentUser();
+		}
+				
+		logger.info(curUser.getFirstName());
+		logger.info(curUser.getEmail());
+		
+		response.addObject("user", curUser);
+		
+		List<Post> posts = postDao.getAllPostsFrom(curUser);
+		for (Post p : posts) {
+			logger.info(p.getAuthor().getFirstName() + "Post displayed");
+		}
+		
+		List<User> friendSet = new ArrayList<User>();
+		List<FriendList> friends = new ArrayList<FriendList>(curUser.getFriends());
+		for (FriendList friend : friends) {
+			friendSet.add(userDao.findById(friend.getFriendId()));
+		}
+		response.addObject("curUser", curUser);
+		response.addObject("friends", friendSet);
+		response.addObject("posts", posts);
+
+		return response;
+	}
+	
+	@RequestMapping(value = { "/userCtrl/add"}, method = RequestMethod.POST)
 	public ModelAndView userProfile(@Valid FriendshipCreate form, BindingResult bindingResult) {
 
 		ModelAndView response = new ModelAndView();

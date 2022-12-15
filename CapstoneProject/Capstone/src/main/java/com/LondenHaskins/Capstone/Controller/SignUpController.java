@@ -51,7 +51,7 @@ public class SignUpController {
 	@Value("${spring.datasource.url}")
 	private String variable;
 
-	@RequestMapping(value = { "/signup"}, method = RequestMethod.GET)
+	@RequestMapping(value = { "/user/signup"}, method = RequestMethod.GET)
 	public ModelAndView signUp() {
 		ModelAndView response = new ModelAndView();
 		response.setViewName("signUp");
@@ -61,7 +61,7 @@ public class SignUpController {
 		return response;
 	}
 	
-	@RequestMapping(value = "/createuser", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/create", method = RequestMethod.POST)
 	public ModelAndView UserCreateSubmit(@Valid UserAcctCreate form, BindingResult bindingResult) {
 		ModelAndView response = new ModelAndView();
 		response.setViewName("signUp");

@@ -21,7 +21,7 @@
 	                <td>${user.firstName} ${user.lastName}</td>
 	                <td>${user.email}</td>
 	                <td>
-	                	<form action="/user/profile/add" method="POST"> 
+	                	<form action="/userCtrl/add" method="POST"> 
 				        	<sec:authorize access="isAuthenticated()">
 								<button type="submit" class="btn-primary btn-block">Add Friend</button>
 							</sec:authorize>

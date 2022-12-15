@@ -13,7 +13,7 @@
 			
 			<div class="card mb-4 box-shadow">
 	            <div class="card-body">
-	            	<form action="/user/profile/makePost" method="POST">
+	            	<form action="/userCtrl/postBuild" method="POST">
 		            	<textarea id="formContent" name="contentText" rows="4" cols="50" placeholder="What's on your mind?"></textarea>
 		                <div class="d-flex justify-content-between align-items-center">
 		                    <div class="btn-group">

@@ -12,7 +12,7 @@
 		<div class="card my-3" style="width: 100%;">
 		  <div class="card-body">
 			<h5 class="card-title">Account Creation Form</h5>
-			<form action="/createuser" method="POST">
+			<form action="/user/create" method="POST">
 				First Name<input type="text" value="${form.firstName}"  name="firstName" id="firstNameId" required>
 				<br><br>
 				Last Name <input type="text" value="${form.lastName}"  name="lastName" id="lastNameId" required>

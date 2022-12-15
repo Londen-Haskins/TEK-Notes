@@ -4,38 +4,30 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.LondenHaskins.Capstone.DAO.PostCommentDAO;
 import com.LondenHaskins.Capstone.DAO.PostDAO;
 import com.LondenHaskins.Capstone.DAO.UserDAO;
-import com.LondenHaskins.Capstone.Entity.FriendList;
 import com.LondenHaskins.Capstone.Entity.Post;
 import com.LondenHaskins.Capstone.Entity.PostComment;
 import com.LondenHaskins.Capstone.Entity.User;
-import com.LondenHaskins.Capstone.Entity.UserRole;
 import com.LondenHaskins.Capstone.Security.AuthenticatedUserService;
 import com.LondenHaskins.Capstone.form.PostCommentCreate;
 import com.LondenHaskins.Capstone.form.PostCreate;
-import com.LondenHaskins.Capstone.form.UserAcctCreate;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,7 +52,7 @@ public class PostDetailController {
 	@Value("${spring.datasource.url}")
 	private String variable;
 
-	@RequestMapping(value = { "/user/profile/makePost"}, method = RequestMethod.POST)
+	@RequestMapping(value = { "/userCtrl/postBuild"}, method = RequestMethod.POST)
 	public ModelAndView createPost(@Valid PostCreate form, BindingResult bindingResult) {
 
 		ModelAndView response = new ModelAndView();
@@ -141,7 +133,7 @@ public class PostDetailController {
 		
 	}
 	
-	@RequestMapping(value = { "/user/profile/makeComment"}, method = RequestMethod.POST)
+	@RequestMapping(value = { "/userCtrl/makeComment"}, method = RequestMethod.POST)
 	public ModelAndView createComment(@Valid PostCommentCreate form, BindingResult bindingResult) {
 
 		ModelAndView response = new ModelAndView();
