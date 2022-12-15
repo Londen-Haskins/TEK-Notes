@@ -25,15 +25,6 @@ ul {
   overflow: hidden;
 }
 
-/* Styling for nav bar links */
-li {
-  float: left;	/* slide block elements next to each other*/
-}
-
-li:hover{
-	background-color: black;
-  transition-duration: 1.5s;/* Time for color change */
-}
 
 /* Block elements */
 .navbar-block{

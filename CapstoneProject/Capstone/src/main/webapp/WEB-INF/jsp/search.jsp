@@ -20,6 +20,7 @@
 	                <td>${user.id}</td>
 	                <td>${user.firstName} ${user.lastName}</td>
 	                <td>${user.email}</td>
+	                <td><a href="/user/profile?id=${user.id}"><button class="btn-primary btn-block">See Profile</button></a></td>
 	                <td>
 	                	<form action="/userCtrl/add" method="POST"> 
 				        	<sec:authorize access="isAuthenticated()">

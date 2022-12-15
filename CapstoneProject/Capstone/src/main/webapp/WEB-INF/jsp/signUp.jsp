@@ -22,6 +22,20 @@
 				Password <input type="text" value="${form.password}"  name="password" id="inputPass" required>
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
+			<input type="radio" id="html" name="fav_language" value="Buisness">
+			<label for="html">Buisness</label><br>
+			<input type="radio" id="css" name="fav_language" value="Personal">
+			<label for="css">Personal</label><br>
+			
+			<label for="cars">Choose a link account:</label>
+
+			<select name="cars" id="cars">
+			  <option value="volvo">Facebook</option>
+			  <option value="saab">Twitter</option>
+			  <option value="mercedes">Instagram</option>
+			  <option value="audi">Tumblr</option>
+			</select>
+			
 		  </div>
 		</div>
 			
